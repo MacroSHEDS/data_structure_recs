@@ -5,6 +5,14 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        .header {
+            display: flex;
+			justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin-right: 10px;
+        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -82,8 +90,12 @@
 <body>
 
     <div class="container mt-5">
-	
-		<h1>MacroSheds recommendations for publication of tabular data</h1>
+	    <div class="header">
+			<h1>Clean and reusable environmental data</h1>
+			<a href="https://macrosheds.org">
+				<img src="logo.png" alt="MacroSheds Logo" style="height: 50px;">
+			</a>
+		</div>
 		<br>
 
 		<h4>File formatting</h4>
@@ -104,10 +116,10 @@
 
 				<div class="color-key">
 					<div class="key-item">
-						<span style="background-color: #007bff"></span> Required Column
+						<span style="background-color: #007bff"></span> Required
 					</div>
 					<div class="key-item">
-						<span style="background-color: #a9a9a9"></span> Optional Column
+						<span style="background-color: #a9a9a9"></span> Optional
 					</div>
 				</div>
 			
@@ -115,7 +127,7 @@
 					<table class="table table-bordered table-generic">
 						<thead>
 							<tr>
-								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; otherwise make sure you specify time zone somewhere." onclick="toggleColumnText(0)">date<span class="shadowtext"><s>time</s></span><br><span class="subparen">(click to toggle)</span></th>
+								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; otherwise make sure you specify time zone somewhere.">date/<br>datetime</th>
 								<th data-title="Site IDs in your own custom format. Include site details elsewhere (coordinates, CRS, elevation, description).">site_code</th>
 								<th class="optional-column" data-title="e.g. different depths in a large river">group/<br>treatment</th>
 								<th data-title="Units can be included in the parameter name or elsewhere. Define methods elsewhere.">parameter1<br><span class="subparen">(consider <a href="https://csdms.colorado.edu/wiki/CSN_Searchable_List-Names" style="color: darkblue">CSDMS standard names</a>)</span></th>
@@ -128,7 +140,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>YYYY-MM-DD</td>
+								<td>YYYY-MM-DD<br><span style="color: #a9a9a9">hh:mm:ss</span></td>
 								<td>custom</td>
 								<td style="color: #a0a0a0">custom</td>
 								<td>numeric value</td>
@@ -258,21 +270,6 @@
 			}
 		});
 
-		function toggleColumnText(colIndex) {
-			var table = document.querySelector('.table-generic');
-			var headerCell = table.rows[0].cells[colIndex];
-			var isDateWithShadowText = headerCell.innerHTML === 'date<span class="shadowtext"><s>time</s></span><br><span class="subparen">(click to toggle)</span>';
-
-			for (var rowIndex = 0; rowIndex < table.rows.length; rowIndex++) {
-				var cell = table.rows[rowIndex].cells[colIndex];
-
-				if (rowIndex === 0) { // Header cell
-					cell.innerHTML = isDateWithShadowText ? 'datetime<br><span class="subparen">(click to toggle)</span>' : 'date<span class="shadowtext"><s>time</s></span><br><span class="subparen">(click to toggle)</span>';
-				} else { // Other cells in the column
-					cell.innerHTML = isDateWithShadowText ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
-				}
-			}
-		}
     </script>
 
 </body>
