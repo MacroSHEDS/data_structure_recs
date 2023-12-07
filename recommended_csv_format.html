@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended CSV format for ecosystem (hydro/geo/bio/climatic) time-series data</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .table {
+            background-color: #f8f9fa;
+            transition: all 0.3s;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .table th:hover {
+            background-color: #0056b3;
+        }
+        .table td {
+            transition: all 0.3s;
+        }
+        th, td {
+            text-align: center;
+			vertical-align: top !important;
+        }
+		.optional-column {
+			background-color: #a9a9a9 !important;
+			color: #333;
+		}
+		.optional-column:hover {
+			background-color: #d3d3d3 !important;
+		}
+
+        .color-key {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .key-item {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 5px;
+        }
+        .key-item span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+		.shadowtext {
+			color: #333333;
+		}
+		.lite {
+			color: #999999;
+		}
+
+		.tooltip {
+			padding: 5px 10px;
+			background-color: black;
+			color: white;
+			border-radius: 5px;
+			z-index: 1000; /* High z-index to ensure visibility */
+		}
+		.subparen {
+			font-size: 0.7em;
+			color: black;
+		}
+
+		.spec-cell {
+			background-color: #000c1a !important;
+		}
+		.td-titled {
+			text-decoration: underline;
+		}
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+	
+		<h1>MacroSheds recommendations for publication of tabular data</h1>
+		<br>
+
+		<h4>File formatting</h4>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tab1">Wide format</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab2">Long format</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="tab1" class="container tab-pane active">
+				<br>
+				<br>
+				<h4>generic example</h4>
+
+				<div class="color-key">
+					<div class="key-item">
+						<span style="background-color: #007bff"></span> Required Column
+					</div>
+					<div class="key-item">
+						<span style="background-color: #a9a9a9"></span> Optional Column
+					</div>
+				</div>
+			
+				<div class="table-responsive">
+					<table class="table table-bordered table-generic">
+						<thead>
+							<tr>
+								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; otherwise make sure you specify time zone somewhere." onclick="toggleColumnText(0)">date<span class="shadowtext"><s>time</s></span><br><span class="subparen">(click to toggle)</span></th>
+								<th data-title="Site IDs in your own custom format. Include site details elsewhere (coordinates, CRS, elevation, description).">site_code</th>
+								<th class="optional-column" data-title="e.g. different depths in a large river">group/<br>treatment</th>
+								<th data-title="Units can be included in the parameter name or elsewhere. Define methods elsewhere.">parameter1<br><span class="subparen">(consider <a href="https://csdms.colorado.edu/wiki/CSN_Searchable_List-Names" style="color: darkblue">CSDMS standard names</a>)</span></th>
+								<th data-title="Numeric QC flag codes with definitions elsewhere. You could also have just one flag column if it applies across all your data columns.">parameter1_flag</th>
+								<th class="optional-column" data-title="Units can be included in the parameter name or elsewhere. Define methods elsewhere.">parameter2</th>
+								<th class="optional-column" data-title="Numeric QC flag codes with definitions elsewhere. You could also have just one flag column if it applies across all your data columns.">parameter2_flag</th>
+								<th class="optional-column" data-title="Additional parameters">...</th>
+								<th class="optional-column" data-title="Avoid if possible! All quality information should be encoded as flags. Notes can still be used to designate interesting observations.">notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>YYYY-MM-DD</td>
+								<td>custom</td>
+								<td style="color: #a0a0a0">custom</td>
+								<td>numeric value</td>
+								<td>integer code</td>
+								<td style="color: #a9a9a9">numeric value</td>
+								<td style="color: #a9a9a9">integer code</td>
+								<td style="color: #a9a9a9">...</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<br><br>
+				<h4>Specific example</h4>
+
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="spec-cell" data-title="Timezone defined in metadata: UTC">datetime</th>
+								<th class="spec-cell" data-title="Coordinates, CRS, elevation, description defined in metadata">site_code</th>
+								<th class="spec-cell" data-title="Units defined in metadata: uS/cm">spec_cond</th>
+								<th class="spec-cell" data-title='Code 310 defined in metadata: "sensor out of water"'>spec_cond_flag</th>
+								<th class="spec-cell" data-title="Units defined in metadata: mg/L">nitrate</th>
+								<th class="spec-cell" data-title='Code 311 defined in metadata: "sensor power issue"'>nitrate_flag</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2023-12-11 08:30:00</td>
+								<td>salinas1</td>
+								<td>9.40</td>
+								<td></td>
+								<td>1.81</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2023-12-11 08:45:00</td>
+								<td>salinas1</td>
+								<td>9.43</td>
+								<td></td>
+								<td class="td-titled" data-title='Use -999 to designate missing values in numeric columns, or "N/A" for text columns'>-999</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2023-12-11 09:00:00</td>
+								<td>salinas1</td>
+								<td>0.01</td>
+								<td class="td-titled" data-title='Code 310 defined in metadata: "sensor out of water"'>310</td>
+								<td>1.82</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td colspan="6" style="text-align: center; border: none;">...</td>
+							</tr>
+							<tr>
+								<td>2023-12-11 08:30:00</td>
+								<td class="td-titled" data-title='You can include multiple sites in a file, or separate them. Same goes for parameters and time spans'>nacimiento3</td>
+								<td>7.44</td>
+								<td></td>
+								<td>0.05</td>
+								<td class="td-titled" data-title='Code 311 defined in metadata: "sensor power issue"'>311</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
+
+			</div>
+            <div id="tab2" class="container tab-pane fade">
+                <h3>Tab 2</h3>
+                <p>Content for Tab 2...</p>
+            </div>
+        </div>
+
+		<hr>
+		<h4>General guidelines</h4>
+		<ul>
+			<li>Use CSV files. <span class="lite">They're plain text, all data software can handle them, and they'll never stop working.</span></li>
+			<li><span class="lite">If in doubt, use</span> UTF-8 encoding.</li>
+			<li>Maximum filesize: 2 GB. <span class="lite">Data may take up extra space when represented in a program like R or Excel, and 4-8 GB of memory is still common.</lite>
+			<li><span class="lite">Represent missing numeric data with </span>-999 or -9999<span class="lite">, and missing text data with</span> N/A.
+			<li>Wide format <span class="lite">is better for human reading and machine analysis. Use it when you can. If wide format results in a lot of missing data, use long.</span></li>
+			<li><span class="lite">Publish your data to an </span>official repository<span class="lite">. We recommend <a href="https://portal.edirepository.org/nis/home.jsp">EDI</a>, but there are many others.</span>
+			<ul class="lite">
+				<li><a href="https://portal.edirepository.org/nis/home.jsp">EDI: Environmental Data Initiative</a> (robust metadata)</li>
+					<ul>
+						<li><a href="https://github.com/EDIorg/EMLassemblyline">EMLassemblyline</a>: a tool for building robust metadata with code</li>
+						<li><a href="https://ezeml.edirepository.org/eml/auth/login">ezEML</a>: a tool for building robust metadata with forms</li>
+						<li><a href="https://github.com/earnaud/MetaShARK-v2">MetaShARK</a>: another graphical tool</li>
+					</ul>
+				<li><a href="https://www.hydroshare.org/">HydroShare</a></li>
+				<li><a href="https://www.pangaea.de/">Pangaea</a> (georeferenced)</li>
+				<li><a href="https://datadryad.org/stash">Dryad</a></li>
+			</ul>
+		</ul>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+
+		$(document).ready(function(){
+			$('th,.td-titled').hover(function(e) {
+				var title = $(this).data('title');
+				var tooltip = $('<div class="tooltip"></div>').text(title).appendTo('body');
+
+				var offset = $(this).offset();
+				tooltip.css({
+					top: offset.top - tooltip.outerHeight() - 5,
+					left: offset.left,
+					position: 'absolute',
+					opacity: 1 // Ensure it's fully visible
+				});
+			}, function() {
+				$('.tooltip').remove();
+			});
+		});
+
+		// Remove the tooltip on click anywhere in the document
+		$(document).click(function(e) {
+			if (!$(e.target).closest('.tooltip').length) {
+				$('.tooltip').remove();
+			}
+		});
+
+		function toggleColumnText(colIndex) {
+			var table = document.querySelector('.table-generic');
+			var headerCell = table.rows[0].cells[colIndex];
+			var isDateWithShadowText = headerCell.innerHTML === 'date<span class="shadowtext"><s>time</s></span><br><span class="subparen">(click to toggle)</span>';
+
+			for (var rowIndex = 0; rowIndex < table.rows.length; rowIndex++) {
+				var cell = table.rows[rowIndex].cells[colIndex];
+
+				if (rowIndex === 0) { // Header cell
+					cell.innerHTML = isDateWithShadowText ? 'datetime<br><span class="subparen">(click to toggle)</span>' : 'date<span class="shadowtext"><s>time</s></span><br><span class="subparen">(click to toggle)</span>';
+				} else { // Other cells in the column
+					cell.innerHTML = isDateWithShadowText ? 'YYYY-MM-DD hh:mm:ss' : 'YYYY-MM-DD';
+				}
+			}
+		}
+    </script>
+
+</body>
+</html>
+

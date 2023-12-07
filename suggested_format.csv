@@ -1,0 +1,14 @@
+"water_quality.csv",,,,,,,
+"datetime","site_code","parameter1","parameter1_flag","parameter2","parameter2_flag","...","notes"
+"ideally UTC, but specify in any case","your own personal site ID, however you format it. site details included elsewhere (coordinates, CRS, elevation, description)","units and methods defined somewhere","QC flag code (these must be defined somewhere)",,,"more parameters","optional. all QC information should be encoded as flags, but you could potentially mention interesting contextual details here"
+"YYYY-MM-DD hh:mm:ss",,"ideally CSDMS names, or some other controlled vocabulary",,,,,
+,,,,,,,
+"datetime","site_code","streamflow","streamflow_flag","nitrate","nitrate_flag",,
+2023-12-11 08:30:00,"salinas1",10.8,,1.8,,,
+2023-12-11 08:45:00,"salinas1",10.6,,0.1,"code4",,
+"...","...","...","...","...","...",,
+2023-12-11 08:30:00,"nacimiento3",4.5,,1.4,,,
+,,,,,,,
+"probs provide example of long format too",,,,,,,
+"may have treatment/group column too",,,,,,,
+"you can of course separate sites, years, and variables as you see fit",,,,,,,
