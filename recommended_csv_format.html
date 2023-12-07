@@ -97,16 +97,20 @@
 			</a>
 		</div>
 		<br>
+		<p>For more detail, see <a href="https://edirepository.org/resources/cleaning-data-and-quality-control">the EDI guide</a> to file preparation.
+		<br><br>
 
 		<h4>File formatting</h4>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tab1">Wide format</a>
+                <a class="nav-link active" data-toggle="tab" href="#tab1">Wide format (preferred)</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tab2">Long format</a>
             </li>
         </ul>
+
+		<!-- TAB ONE -->
 
         <div class="tab-content">
             <div id="tab1" class="container tab-pane active">
@@ -127,13 +131,13 @@
 					<table class="table table-bordered table-generic">
 						<thead>
 							<tr>
-								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; otherwise make sure you specify time zone somewhere.">date/<br>datetime</th>
-								<th data-title="Site IDs in your own custom format. Include site details elsewhere (coordinates, CRS, elevation, description).">site_code</th>
+								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; In any case, make sure you specify time zone somewhere.">date/<br>datetime</th>
+								<th data-title="Site IDs in your own custom format. Include site details in metadata (coordinates, CRS, elevation, description).">site_code</th>
 								<th class="optional-column" data-title="e.g. different depths in a large river">group/<br>treatment</th>
-								<th data-title="Units can be included in the parameter name or elsewhere. Define methods elsewhere.">parameter1<br><span class="subparen">(consider <a href="https://csdms.colorado.edu/wiki/CSN_Searchable_List-Names" style="color: darkblue">CSDMS standard names</a>)</span></th>
-								<th data-title="Numeric QC flag codes with definitions elsewhere. You could also have just one flag column if it applies across all your data columns.">parameter1_flag</th>
-								<th class="optional-column" data-title="Units can be included in the parameter name or elsewhere. Define methods elsewhere.">parameter2</th>
-								<th class="optional-column" data-title="Numeric QC flag codes with definitions elsewhere. You could also have just one flag column if it applies across all your data columns.">parameter2_flag</th>
+								<th data-title="Units can be included in the parameter name or in metadata. Define methods in metadata.">parameter1<br><span class="subparen">(consider <a href="https://csdms.colorado.edu/wiki/CSN_Searchable_List-Names" style="color: darkblue">CSDMS standard names</a>)</span></th>
+								<th data-title="Numeric QC flag codes with definitions in metadata. You could have just one flag column if it applies across all your data columns.">parameter1_flag</th>
+								<th class="optional-column" data-title="Units can be included in the parameter name or in metadata. Define methods in metadata.">parameter2</th>
+								<th class="optional-column" data-title="Numeric QC flag codes with definitions in metadata. You could also have just one flag column if it applies across all your data columns.">parameter2_flag</th>
 								<th class="optional-column" data-title="Additional parameters">...</th>
 								<th class="optional-column" data-title="Avoid if possible! All quality information should be encoded as flags. Notes can still be used to designate interesting observations.">notes</th>
 							</tr>
@@ -141,14 +145,14 @@
 						<tbody>
 							<tr>
 								<td>YYYY-MM-DD<br><span style="color: #a9a9a9">hh:mm:ss</span></td>
-								<td>custom</td>
-								<td style="color: #a0a0a0">custom</td>
-								<td>numeric value</td>
-								<td>integer code</td>
-								<td style="color: #a9a9a9">numeric value</td>
-								<td style="color: #a9a9a9">integer code</td>
+								<td>character</td>
+								<td style="color: #a9a9a9">character</td>
+								<td>numeric</td>
+								<td>integer</td>
+								<td style="color: #a9a9a9">numeric</td>
+								<td style="color: #a9a9a9">integer</td>
 								<td style="color: #a9a9a9">...</td>
-								<td></td>
+								<td style="color: #a9a9a9">character</td>
 							</tr>
 						</tbody>
 					</table>
@@ -163,15 +167,15 @@
 							<tr>
 								<th class="spec-cell" data-title="Timezone defined in metadata: UTC">datetime</th>
 								<th class="spec-cell" data-title="Coordinates, CRS, elevation, description defined in metadata">site_code</th>
-								<th class="spec-cell" data-title="Units defined in metadata: uS/cm">spec_cond</th>
-								<th class="spec-cell" data-title='Code 310 defined in metadata: "sensor out of water"'>spec_cond_flag</th>
-								<th class="spec-cell" data-title="Units defined in metadata: mg/L">nitrate</th>
-								<th class="spec-cell" data-title='Code 311 defined in metadata: "sensor power issue"'>nitrate_flag</th>
+								<th class="spec-cell" data-title="Specific conductance. Units: uS/cm. Method: resistance (Vernier probe model). All defined in metadata.">spec_cond</th>
+								<th class="spec-cell" data-title='Code 310 defined in metadata: "below detection limit; estimated as 1/2 detection limit"'>spec_cond_flag</th>
+								<th class="spec-cell" data-title="Molecular nitrate. Units: mg/L. Method: absorbance (YSI probe model). All defined in metadata.">nitrate</th>
+								<th class="spec-cell" data-title='Code 311 defined in metadata: "sensor out of water"'>nitrate_flag</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>2023-12-11 08:30:00</td>
+								<td>2016-01-01 00:00:00</td>
 								<td>salinas1</td>
 								<td>9.40</td>
 								<td></td>
@@ -179,7 +183,7 @@
 								<td></td>
 							</tr>
 							<tr>
-								<td>2023-12-11 08:45:00</td>
+								<td>2016-01-01 00:15:00</td>
 								<td>salinas1</td>
 								<td>9.43</td>
 								<td></td>
@@ -187,10 +191,10 @@
 								<td></td>
 							</tr>
 							<tr>
-								<td>2023-12-11 09:00:00</td>
+								<td>2016-01-01 00:30:00</td>
 								<td>salinas1</td>
 								<td>0.01</td>
-								<td class="td-titled" data-title='Code 310 defined in metadata: "sensor out of water"'>310</td>
+								<td class="td-titled" data-title='Code 310 defined in metadata: "below detection limit; estimated as 1/2 detection limit"'>310</td>
 								<td>1.82</td>
 								<td></td>
 							</tr>
@@ -198,22 +202,141 @@
 								<td colspan="6" style="text-align: center; border: none;">...</td>
 							</tr>
 							<tr>
-								<td>2023-12-11 08:30:00</td>
+								<td>2023-12-31 23:45:00</td>
 								<td class="td-titled" data-title='You can include multiple sites in a file, or separate them. Same goes for parameters and time spans'>nacimiento3</td>
 								<td>7.44</td>
 								<td></td>
 								<td>0.05</td>
-								<td class="td-titled" data-title='Code 311 defined in metadata: "sensor power issue"'>311</td>
+								<td class="td-titled" data-title='Code 311 defined in metadata: "sensor out of water"'>311</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				<br>
-
 			</div>
+
+		<!-- TAB TWO -->
+
             <div id="tab2" class="container tab-pane fade">
-                <h3>Tab 2</h3>
-                <p>Content for Tab 2...</p>
+                
+				<br>
+				<br>
+				<h4>generic example</h4>
+
+				<div class="color-key">
+					<div class="key-item">
+						<span style="background-color: #007bff"></span> Required
+					</div>
+					<div class="key-item">
+						<span style="background-color: #a9a9a9"></span> Optional
+					</div>
+				</div>
+			
+				<div class="table-responsive">
+					<table class="table table-bordered table-generic">
+						<thead>
+							<tr>
+								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; in any case, make sure you specify time zone somewhere.">date/<br>datetime</th>
+								<th data-title="Site IDs in your own custom format. Include site details in metadata (coordinates, CRS, elevation, description).">site_code</th>
+								<th class="optional-column" data-title="e.g. different depths in a large river">group/<br>treatment</th>
+								<th data-title="Define units and methods in the metadata.">parameter</th>
+								<th data-title="Only numeric data and a missing value code, like -9999">value</th>
+								<th data-title="Numeric QC flag codes with definitions in metadata.">flag</th>
+								<th class="optional-column" data-title="Avoid if possible! All quality information should be encoded as flags. Notes can still be used to designate interesting observations.">notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>YYYY-MM-DD<br><span style="color: #a9a9a9">hh:mm:ss</span></td>
+								<td>character</td>
+								<td style="color: #a9a9a9">character</td>
+								<td>character<br><span class="subparen">(consider <a href="https://csdms.colorado.edu/wiki/CSN_Searchable_List-Names" style="color: darkblue">CSDMS standard names</a>)</span></td>
+								<td>numeric</td>
+								<td>integer</td>
+								<td style="color: #a9a9a9">character</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<br><br>
+				<h4>Specific example</h4>
+
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="spec-cell" data-title="Timezone defined in metadata: UTC">datetime</th>
+								<th class="spec-cell" data-title="Coordinates, CRS, elevation, description defined in metadata">site_code</th>
+								<th class="spec-cell" data-title="Methods and parameter names defined in metadata">parameter</th>
+								<th class="spec-cell" data-title="Units defined in metadata. Missing value code -9999 defined in metadata.">value</th>
+								<th class="spec-cell" data-title="Flag codes defined in metadata">flag</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2016-01-01 00:00:00</td>
+								<td>salinas1</td>
+								<td>spec_cond</td>
+								<td>9.40</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2016-01-01 00:00:00</td>
+								<td>salinas1</td>
+								<td>nitrate</td>
+								<td>1.81</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2016-01-01 00:15:00</td>
+								<td>salinas1</td>
+								<td>spec_cond</td>
+								<td>9.43</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2016-01-01 00:15:00</td>
+								<td>salinas1</td>
+								<td>nitrate</td>
+								<td class="td-titled" data-title='Use -999 to designate missing values in numeric columns, or "N/A" for text columns'>-999</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2016-01-01 00:30:00</td>
+								<td>salinas1</td>
+								<td>spec_cond</td>
+								<td>0.01</td>
+								<td class="td-titled" data-title='Code 310 defined in metadata: "below detection limit; estimated as 1/2 detection limit"'>310</td>
+							</tr>
+							<tr>
+								<td>2016-01-01 00:30:00</td>
+								<td>salinas1</td>
+								<td>nitrate</td>
+								<td>1.82</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td colspan="5" style="text-align: center; border: none;">...</td>
+							</tr>
+							<tr>
+								<td>2023-12-31 23:45:00</td>
+								<td class="td-titled" data-title='Best to include all sites in the same file. Fewer files is better!'>nacimiento3</td>
+								<td>spec_cond</td>
+								<td>7.44</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2023-12-31 23:45:00</td>
+								<td class="td-titled" data-title='Best to include all sites in the same file. Fewer files is better!'>nacimiento3</td>
+								<td>nitrate</td>
+								<td>0.05</td>
+								<td class="td-titled" data-title='Code 311 defined in metadata: "sensor out of water"'>311</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
             </div>
         </div>
 
@@ -225,18 +348,20 @@
 			<li>Maximum filesize: 2 GB. <span class="lite">Data may take up extra space when represented in a program like R or Excel, and 4-8 GB of memory is still common.</lite>
 			<li><span class="lite">Represent missing numeric data with </span>-999 or -9999<span class="lite">, and missing text data with</span> N/A.
 			<li>Wide format <span class="lite">is better for human reading and machine analysis. Use it when you can. If wide format results in a lot of missing data, use long.</span></li>
-			<li><span class="lite">Publish your data to an </span>official repository<span class="lite">. We recommend <a href="https://portal.edirepository.org/nis/home.jsp">EDI</a>, but there are many others.</span>
+			<li><span class="lite">Publish your data to a </span>data repository<span class="lite">. We recommend <a href="https://portal.edirepository.org/nis/home.jsp">EDI</a>, but there are many others.</span>
 			<ul class="lite">
 				<li><a href="https://portal.edirepository.org/nis/home.jsp">EDI: Environmental Data Initiative</a> (robust metadata)</li>
 					<ul>
-						<li><a href="https://github.com/EDIorg/EMLassemblyline">EMLassemblyline</a>: a tool for building robust metadata with code</li>
-						<li><a href="https://ezeml.edirepository.org/eml/auth/login">ezEML</a>: a tool for building robust metadata with forms</li>
+						<li><a href="https://github.com/EDIorg/EMLassemblyline">EMLassemblyline</a>: a tool for building metadata with code</li>
+						<li><a href="https://ezeml.edirepository.org/eml/auth/login">ezEML</a>: a tool for building metadata with forms</li>
 						<li><a href="https://github.com/earnaud/MetaShARK-v2">MetaShARK</a>: another graphical tool</li>
 					</ul>
 				<li><a href="https://www.hydroshare.org/">HydroShare</a></li>
 				<li><a href="https://www.pangaea.de/">Pangaea</a> (georeferenced)</li>
 				<li><a href="https://datadryad.org/stash">Dryad</a></li>
 			</ul>
+			<li><span class="lite">For long-term datasets, maintain a</span> consistent file design<span class="lite"> through time, only changing it when necessary. Programs written to parse your data may break any time you add columns or flag codes, change the filename, etc.</span></li>
+			<li>Filenames <span class="lite">should be simple and general, like water_quality.csv. For datesets that could receive updates, the filename should not include time information. Versioning should be handled by your data repository, so no need to include the version in the filename.</span></li>
 		</ul>
 
     </div>
