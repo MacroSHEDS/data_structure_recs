@@ -363,7 +363,7 @@
 			</ul>
 			<li><span class="lite">For long-term datasets, maintain a</span> consistent file design<span class="lite"> through time, only changing it when necessary. Programs written to parse your data may break any time you add columns or flag codes, change the filename, etc.</span></li>
 			<li>Filenames <span class="lite">should be simple and general, like water_quality.csv. For datesets that could receive updates, the filename should not include time information. Versioning should be handled by your data repository, so no need to include the version in the filename.</span></li>
-			<li><span class="lite">Mouse over the header cells above for details pertaining to each column.</span></li>
+			<li><span class="lite">Hover or touch the header cells above for details pertaining to each column.</span></li>
 		</ul>
 
 		<br>
@@ -381,23 +381,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
-
-		//$(document).ready(function(){
-		//	$('th,.td-titled').hover(function(e) {
-		//		var title = $(this).data('title');
-		//		var tooltip = $('<div class="tooltip"></div>').text(title).appendTo('body');
-
-		//		var offset = $(this).offset();
-		//		tooltip.css({
-		//			top: offset.top - tooltip.outerHeight() - 5,
-		//			left: offset.left,
-		//			position: 'absolute',
-		//			opacity: 1 // Ensure it's fully visible
-		//		});
-		//	}, function() {
-		//		$('.tooltip').remove();
-		//	});
-		//});
 
 		$(document).ready(function(){
 			$('th, .td-titled').on('mouseenter touchstart', function(e) {
