@@ -132,7 +132,7 @@
 					<table class="table table-bordered table-generic">
 						<thead>
 							<tr>
-								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; In any case, make sure you specify time zone somewhere.">date/<br>datetime</th>
+								<th data-title="Ideally use UTC (coordinated universal time) for datetimes; In any case, make sure you specify time zone in metadata. If you're using local time, also mention whether DST is being observed.">date/<br>datetime</th>
 								<th data-title="Site IDs in your own custom format. Include site details in metadata (coordinates, CRS, elevation, description).">site_code</th>
 								<th class="optional-column" data-title="e.g. different depths in a large river">group/<br>treatment</th>
 								<th data-title="Units can be included in the parameter name or in metadata. Define methods in metadata.">parameter1<br><span class="subparen">(consider <a href="https://csdms.colorado.edu/wiki/CSN_Searchable_List-Names" style="color: darkblue">CSDMS standard names</a>)</span></th>
@@ -188,7 +188,7 @@
 								<td>salinas1</td>
 								<td>9.43</td>
 								<td></td>
-								<td class="td-titled" data-title='Use -999 to designate missing values in numeric columns, or "N/A" for text columns'>-999</td>
+								<td class="td-titled" data-title='Use NA to designate missing values'>NA</td>
 								<td></td>
 							</tr>
 							<tr>
@@ -241,7 +241,7 @@
 								<th data-title="Site IDs in your own custom format. Include site details in metadata (coordinates, CRS, elevation, description).">site_code</th>
 								<th class="optional-column" data-title="e.g. different depths in a large river">group/<br>treatment</th>
 								<th data-title="Define units and methods in the metadata.">parameter</th>
-								<th data-title="Only numeric data and a missing value code, like -9999">value</th>
+								<th data-title="Only numeric data or NA for missing values.">value</th>
 								<th data-title="Numeric QC flag codes with definitions in metadata.">flag</th>
 								<th class="optional-column" data-title="Avoid if possible! All quality information should be encoded as flags. Notes can still be used to designate interesting observations.">notes</th>
 							</tr>
@@ -270,7 +270,7 @@
 								<th class="spec-cell" data-title="Timezone defined in metadata: UTC">datetime</th>
 								<th class="spec-cell" data-title="Coordinates, CRS, elevation, description defined in metadata">site_code</th>
 								<th class="spec-cell" data-title="Methods and parameter names defined in metadata">parameter</th>
-								<th class="spec-cell" data-title="Units defined in metadata. Missing value code -9999 defined in metadata.">value</th>
+								<th class="spec-cell" data-title="Units defined in metadata. Missing value code NA defined in metadata.">value</th>
 								<th class="spec-cell" data-title="Flag codes defined in metadata">flag</th>
 							</tr>
 						</thead>
@@ -300,7 +300,7 @@
 								<td>2016-01-01 00:15:00</td>
 								<td>salinas1</td>
 								<td>nitrate</td>
-								<td class="td-titled" data-title='Use -999 to designate missing values in numeric columns, or "N/A" for text columns'>-999</td>
+								<td class="td-titled" data-title='Use NA to designate missing values.'>NA</td>
 								<td></td>
 							</tr>
 							<tr>
@@ -347,7 +347,7 @@
 			<li>Use CSV files. <span class="lite">They're plain text, all data software can handle them, and they'll never stop working.</span></li>
 			<li><span class="lite">If in doubt, use</span> UTF-8 encoding.</li>
 			<li>Maximum filesize: 2 GB. <span class="lite">Data may take up extra space when represented in a program like R or Excel, and 4-8 GB of memory is still common.</lite>
-			<li><span class="lite">Represent missing numeric data with </span>-999 or -9999<span class="lite">, and missing text data with</span> N/A.
+			<li><span class="lite">Represent missing data with </span>NA<span class="lite">. Environmental data is primarily processed in R or Python (pandas), both of which recognize NA as a missing value. Julia does too. Excel expects an empty cell, but empty cells can't always be described with metadata. Matlab expects NaN, and SAS/SPSS expect a period, but can easily be told to expect NA instead.</span>
 			<li>Wide format <span class="lite">is better for human reading and machine analysis. Use it when you can. If wide format results in a lot of missing data, use long.</span></li>
 			<li><span class="lite">Publish your data to a </span>data repository<span class="lite">. We recommend <a href="https://portal.edirepository.org/nis/home.jsp">EDI</a>, but there are many others.</span>
 			<ul class="lite">
@@ -357,12 +357,13 @@
 						<li><a href="https://ezeml.edirepository.org/eml/auth/login">ezEML</a>: a tool for building metadata with forms</li>
 						<li><a href="https://github.com/earnaud/MetaShARK-v2">MetaShARK</a>: another graphical tool</li>
 					</ul>
-				<li><a href="https://www.hydroshare.org/">HydroShare</a></li>
+				<li><a href="https://www.hydroshare.org/">HydroShare</a> (hydro-focus)</li>
 				<li><a href="https://www.pangaea.de/">Pangaea</a> (georeferenced)</li>
-				<li><a href="https://datadryad.org/stash">Dryad</a></li>
+				<li><a href="https://datadryad.org/stash">Dryad</a>, <a href="https://figshare.com/">Figshare</a>, and <a href="https://zenodo.org/">Zenodo</a> (general)</li>
 			</ul>
 			<li><span class="lite">For long-term datasets, maintain a</span> consistent file design<span class="lite"> through time, only changing it when necessary. Programs written to parse your data may break any time you add columns or flag codes, change the filename, etc.</span></li>
 			<li>Filenames <span class="lite">should be simple and general, like water_quality.csv. For datesets that could receive updates, the filename should not include time information. Versioning should be handled by your data repository, so no need to include the version in the filename.</span></li>
+			<li><span class="lite">Mouse over the header cells above for details pertaining to each column.</span></li>
 		</ul>
 
 		<br>
@@ -381,8 +382,38 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
 
+		//$(document).ready(function(){
+		//	$('th,.td-titled').hover(function(e) {
+		//		var title = $(this).data('title');
+		//		var tooltip = $('<div class="tooltip"></div>').text(title).appendTo('body');
+
+		//		var offset = $(this).offset();
+		//		tooltip.css({
+		//			top: offset.top - tooltip.outerHeight() - 5,
+		//			left: offset.left,
+		//			position: 'absolute',
+		//			opacity: 1 // Ensure it's fully visible
+		//		});
+		//	}, function() {
+		//		$('.tooltip').remove();
+		//	});
+		//});
+
 		$(document).ready(function(){
-			$('th,.td-titled').hover(function(e) {
+			$('th, .td-titled').on('mouseenter touchstart', function(e) {
+				// Prevent default action for touchstart
+				if(e.type === 'touchstart') {
+					e.preventDefault();
+				}
+
+				// Check if tooltip is already shown for this element
+				if ($(this).data('tooltip-active')) {
+					return; // Tooltip already active, ignore hover/touch
+				}
+
+				// Set tooltip as active
+				$(this).data('tooltip-active', true);
+
 				var title = $(this).data('title');
 				var tooltip = $('<div class="tooltip"></div>').text(title).appendTo('body');
 
@@ -393,7 +424,10 @@
 					position: 'absolute',
 					opacity: 1 // Ensure it's fully visible
 				});
-			}, function() {
+			}).on('mouseleave touchend', function() {
+				// Set tooltip as inactive
+				$(this).data('tooltip-active', false);
+
 				$('.tooltip').remove();
 			});
 		});
